@@ -1,0 +1,17 @@
+[user]
+	name = Moritz
+	email = moritz@tibidat.com
+[core]
+	excludesfile = ~/.gitignore
+	whitespace = trailing-space, tab-indent
+[apply]
+	whitespace = strip
+[color]
+	diff = auto
+[push]
+	default = matching
+[merge]
+	tool = kdiff3
+[alias]
+	unstage = reset HEAD
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short

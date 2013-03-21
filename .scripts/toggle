@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# toggle is a simple tool to switch a file name between dotted and plain
+
+HIDDEN_PREFIX="."
+FNAME=$1
+
+display_help() {
+    echo "Usage: toggle file"
+}
+
+display_notice() {
+    echo "Please note that fnswap is a simple wrapper around mv."
+    echo "$FNAME does not exist, please double-check the path"
+}
+
+toggle_file_name() {
+    if [[ ${FNAME:0:1} = "." ]]
+    then
+	mv $FNAME ${FNAME:1}
+    else
+	mv $FNAME $HIDDEN_PREFIX$FNAME
+    fi
+}
+
+validate_file() {
+    if [[ ! -e $FNAME ]]
+    then
+	display_notice
+	exit 1
+    fi
+}
+
+if [[ ! ${#@} -eq 1 ]]
+then
+    display_help
+    exit 1
+fi
+
+validate_file && toggle_file_name

@@ -1,0 +1,74 @@
+#!/usr/bin/env python
+# A simple script to transform any input string into a binary representation.
+import argparse
+import sys
+
+# setup the argument parser
+parser = argparse.ArgumentParser(description="Returns a ASCII encoded binary representation of the input")
+
+parser.add_argument('input', metavar='INTPUT', type=str, nargs='+',
+                    help='The input')
+
+parser.add_argument('-f', '--file', action='store_true',
+                    help='Treat the input string as a path to a file')
+
+parser.add_argument('-u', '--unicode', action='store_true',
+                    help='Signals that the input string should be encoded as unicode')
+
+args = parser.parse_args()
+
+class Encoder(object):
+    """Utility class that encapsulates the encoding procedure"""
+
+    def set_bits(self, utf8):
+        """Sets the number of bits to check for when generating the output based on whether to encode as ASCII or UTF-8"""
+        if utf8:
+            self.bits = self.gen_bit_positions(16)
+        else:
+            self.bits = self.gen_bit_positions(8)
+
+    def force_utf8(self, raw):
+        """Forcefully converts a string to UTF-8"""
+        return unicode(raw, 'utf-8')
+
+    def run_for_file(self, path, utf8=False):
+        """Print the binary representation of the contents of the file located at `path`, optionally encodes using UTF-8 instead of ASCII"""
+        try:
+            f = open(path, 'r')
+        except IOError:
+            sys.stderr.write("Could not open the file located at '%(path)s', please make sure that the path is correct and you have read permissions\n" % dict(path=path))
+            sys.exit(1)
+        for line in f:
+            if utf8:
+                line = self.force_utf8(line)
+            sys.stdout.write(reduce(lambda acc, x: acc + self.toBinRep(x), line, ""))
+        f.close()
+
+    def run_for_args(self, raw, utf8=False):
+        """Print the binary representation of an input string, optionally encoding using UTF-8 instead of ASCII"""
+        if utf8:
+            raw = self.force_utf8(raw)
+        sys.stdout.write(reduce(lambda acc, x: acc + self.toBinRep(x), raw, ""))
+
+    def gen_bit_positions(self, bits):
+        """Generate the values of each bit up to the `bits`th bit"""
+        return map(lambda x: 2**x, range(bits-1, -1, -1))
+
+    def toBinRep(self, char):
+        """Generate a (padded) binary representation of `char`"""
+        o = ord(char)
+        return ''.join(map(lambda x: '1' if o & (x << 0) > 0 else '0', self.bits))
+
+    def run(self, inp, utf8=False, is_file=False):
+        """Trigger encoding of the input, branches based on whether the input should be treated as a file name or a raw string"""
+        self.set_bits(utf8)
+        if is_file:
+            self.run_for_file(inp, utf8)
+        else:
+            self.run_for_args(inp, utf8)
+        sys.stdout.write("\n") # make sure we end with a newline
+
+# normalize the input string, this allows for both quoted and unquoted inputs
+inp = args.input[0] if len(args.input) == 1 else ' '.join(args.input)
+
+Encoder().run(inp, utf8=args.unicode, is_file=args.file)

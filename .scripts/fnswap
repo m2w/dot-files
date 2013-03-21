@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# fnswap is a simple tool to switch the names of two files.
+
+TMP_SUFFIX=".bak"
+BAK=$1$TMP_SUFFIX
+FST=$1
+SND=$2
+
+display_help() {
+    echo "Usage: fnswap file1 file2"
+}
+
+display_notice() {
+    echo "Please note that fnswap is a simple wrapper around mv."
+    echo "$input does not exist, please double-check the path"
+}
+
+swap_file_names() {
+    mv $FST $BAK
+    mv $SND $FST
+    mv $BAK $SND
+}
+
+
+if [[ ! ${#@} -eq 2 ]]
+then
+    display_help
+    exit 1
+fi
+
+for input in $@
+do
+    if [[ -e $input ]]
+    then
+	continue
+    else
+	display_notice
+	exit 1
+    fi
+done
+swap_file_names

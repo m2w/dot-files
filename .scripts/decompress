@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# decompress remembers how to extract various archives so you don't have to
+
+if [[ ! ${#@} -eq 1 ]]
+then
+    display_help
+    exit 1
+fi
+
+display_help() {
+    echo "Usage: decompress file"
+}
+
+decomp() {
+    if [[ 0 -eq $(which -s $1) ]]; then
+	$1 $2 $3
+    else
+	echo "Decompressing the file requires $1 which is currently not available."
+    fi
+}
+
+function extract() {
+    if [[ -f "$1" ]]; then
+	case "$1" in
+	    *.tar.bz2)   decomp tar xvjf "$1"    ;;
+	    *.tar.gz)    decomp tar xvzf "$1"    ;;
+	    *.bz2)       decomp bunzip2 "$1"     ;;
+	    *.rar)       decomp unrar x "$1"     ;;
+	    *.gz)        decomp gunzip "$1"      ;;
+	    *.tar)       decomp tar xvf "$1"     ;;
+	    *.tbz2)      decomp tar xvjf "$1"    ;;
+	    *.tgz)       decomp tar xvzf "$1"    ;;
+	    *.zip)       decomp unzip "$1"       ;;
+	    *.Z)         decomp uncompress "$1"  ;;
+	    *.7z)        decomp 7z x "$1"        ;;
+	    *)           echo "Unable to decompress '$1', unrecognized archive type" ;;
+	esac
+    else
+	display_help
+    fi
+    }
+}
+
+extract $1

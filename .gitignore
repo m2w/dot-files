@@ -1,0 +1,82 @@
+## Python
+*.pyc
+
+## OSX
+.DS_Store
+
+## Emacs
+*~
+\#*\#
+.\#*
+.elc
+auto-save-list
+tramp
+tags
+TAGS
+
+## Haskell
+.virthualenv
+dist
+cabal-dev
+*.o
+*.hi
+*.chi
+*.chs.h
+
+## Erlang
+.eunit
+deps
+*.dump
+*.beam
+*.plt
+erl_crash.dump
+
+## Scala
+*.class
+*.log
+# sbt specific
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/*.class
+
+## JVM (other)
+*.jar
+*.war
+*.ear
+
+## Latex
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.out
+*.pdfsync
+*.ps
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdy
+*.tdo

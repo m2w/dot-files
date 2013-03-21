@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Simply symlink all files to $HOME - optionally create backups of any existing files
+TIMESTAMP=$(date "+%Y%m%d.%H%M")
+BAK_SUFFIX="$TIMESTAMP.bak"
+
+function gather_files() {
+    # the default find implementation on OSX doesn't support printf, resort to sed
+    if [[ $(uname -s) = "Darwin" ]];
+    then
+	find . -maxdepth 1 -mindepth 1 -not -name "\.git" -not -name "link-to-home" -not -name "README.md" | sed 's/\.\///'
+    else
+	find . -maxdepth 1 -mindepth 1 -not -name "\.git" -not -name "link-to-home" -not -name "README.md" -printf "%f\n"
+    fi
+}
+
+function display_help() {
+    echo "Usage: link-to-home [-b|--backup]"
+    exit 1
+}
+
+function backup_conflicts() {
+    echo "** Beginning to backup any conflicting files in \$HOME **"
+    for f in $@
+    do
+	OLD=$HOME/$f
+	if [[ -f $OLD || -d $OLD ]]; then
+	    NEW=$OLD$BAK_SUFFIX
+	    echo "Found a conflict for $f; backed up as $NEW"
+	    mv $OLD $NEW
+	fi
+    done
+}
+
+function link_files() {
+    DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    for f in $@
+    do
+	ln -ihvs $DIR/$f $HOME/$f
+    done
+}
+
+FILES=$(gather_files)
+if [[ -z $HOME ]]; then
+    echo "No \$HOME var set. Aborting..."
+    exit 1
+fi
+
+if [[ $1 ]]; then
+    case $1 in
+	-b)       backup_conflicts $FILES ;;
+	--backup) backup_conflicts $FILES ;;
+	*)        display_help            ;;
+    esac
+fi
+
+
+echo "** Proceeding to create symlinks for the new dot-files in \$HOME **"
+link_files $FILES
+echo "** Finished creating symlinks **"
+echo "** Exiting **"
