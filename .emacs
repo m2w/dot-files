@@ -133,6 +133,9 @@
 (add-hook 'lisp-mode-hook 'lispy-hook)
 (add-hook 'emacs-lisp-mode-hook 'lispy-hook)
 
+(require-maybe 'quack) ; scheme-mode enhancements
+(add-hook 'scheme-mode 'lispy-hook)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Clojure
 (require-maybe 'clojure-mode)
