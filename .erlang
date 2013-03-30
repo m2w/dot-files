@@ -1,2 +1,3 @@
 %%-*- mode: erlang -*-
 code:load_abs("$HOME/.erlang.d/user_default").
+code:load_abs("$HOME/Opt/proper").
