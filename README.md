@@ -2,7 +2,7 @@
 
 My personal dot-files.
 
-To get up and running with these, clone the repo and run the included `ini` script.
+To get up and running with these, clone the repo and run the included `init` script.
 
 # TODOs
 
