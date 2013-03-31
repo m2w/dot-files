@@ -1,0 +1,3 @@
+[submodule "webmachine"]
+	path = webmachine
+	url = https://github.com/basho/webmachine.git
