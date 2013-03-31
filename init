@@ -2,16 +2,7 @@
 # Simply symlink all files to $HOME - optionally create backups of any existing files
 TIMESTAMP=$(date "+%Y%m%d.%H%M")
 BAK_SUFFIX="$TIMESTAMP.bak"
-
-function gather_files() {
-    # the default find implementation on OSX doesn't support printf, resort to sed
-    if [[ $(uname -s) = "Darwin" ]];
-    then
-	find . -maxdepth 1 -mindepth 1 -not -name "\.git" -not -name "link-to-home" -not -name "README.md" | sed 's/\.\///'
-    else
-	find . -maxdepth 1 -mindepth 1 -not -name "\.git" -not -name "link-to-home" -not -name "README.md" -printf "%f\n"
-    fi
-}
+CONFIG_FILES=".gitconfig .emacs .erlang .erlang.d .gitignore .inputrc .profile .sbtconfig .tmux.conf .scripts"
 
 function display_help() {
     echo "Usage: link-to-home [-b|--backup]"
@@ -37,9 +28,17 @@ function link_files() {
     do
 	ln -ihvs $DIR/$f $HOME/$f
     done
+    for header in webmachine/include/*.hrl
+    do
+	cp -i $header .erlang.d/include
+    done
 }
 
-FILES=$(gather_files)
+function compilation() {
+    command -v erlc > /dev/null 2>&1 || { echo "setup requires erlang to be available" >&2; exit 1; }
+    erlc -o $HOME/.erlang.d/ $HOME/.erlang.d/user_default.erl
+}
+
 if [[ -z $HOME ]]; then
     echo "No \$HOME var set. Aborting..."
     exit 1
@@ -47,14 +46,19 @@ fi
 
 if [[ $1 ]]; then
     case $1 in
-	-b)       backup_conflicts $FILES ;;
-	--backup) backup_conflicts $FILES ;;
-	*)        display_help            ;;
+	-b)       backup_conflicts $CONFIG_FILES ;;
+	--backup) backup_conflicts $CONFIG_FILES ;;
+	*)        display_help                   ;;
     esac
 fi
 
-
+echo "** Grabbing submodules **"
+git submodule -q init
+git submodule -q update
 echo "** Proceeding to create symlinks for the new dot-files in \$HOME **"
-link_files $FILES
+link_files $CONFIG_FILES
 echo "** Finished creating symlinks **"
+echo "** Proceeding to compile included Erlang modules **"
+compilation
+echo "** Finished compiling Erlang modules **"
 echo "** Exiting **"
