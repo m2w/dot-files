@@ -157,7 +157,7 @@ help() ->
     pn("debug_off()          -- Terminate the current trace."),
     pn("debug(M)             -- Trace all calls to the module."),
     pn("debug(M, F)          -- Trace all calls to M:F (any arity)."),
-    pn("dbg_safe(M, F, N)    -- Trace all calls to M:F (any arity),"
+    pn("dbg_safe(M, F, N)    -- Trace all calls to M:F (any arity), "
        "but automatically terminate after N events."),
     pn("la()                 -- (re)load all modules."),
     pn("l()                  -- reload all changed modules."),
