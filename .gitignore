@@ -11,8 +11,8 @@
 .elc
 auto-save-list
 tramp
-tags
-TAGS
+#tags
+#TAGS
 
 ## Haskell
 .virthualenv

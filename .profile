@@ -13,8 +13,9 @@ export EDITOR='emacsclient -c -a=""'
 export TERM=screen-256color
 
 # path manipulation
-PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/texbin # prefer homebrew over system executables
+PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/texbin:$PATH # prefer homebrew over system executables
 [[ -d $HOME/.gems ]] && PATH=$PATH:$HOME/.gems/bin && export GEM_HOME=~/.gems # append any gem scripts
+[[ -d /usr/local/share/npm ]] && PATH=/usr/local/share/npm/bin:$PATH # prepend npm installed executables
 [[ -d $HOME/.cabal ]] && PATH=$PATH:$HOME/.cabal/bin
 PATH=$HOME/.scripts:$PATH # prepend custom scripts
 export PATH=$PATH
@@ -84,3 +85,8 @@ function psgrep() {
 function clearDLhist() {
     sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'
 }
+
+# OPAM configuration
+. /Users/blah/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

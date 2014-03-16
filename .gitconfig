@@ -4,6 +4,7 @@
 [core]
 	excludesfile = ~/.gitignore
 	whitespace = trailing-space, tab-indent
+	autocrlf = input
 [apply]
 	whitespace = strip
 [color]

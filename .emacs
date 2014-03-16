@@ -99,6 +99,11 @@
   (add-to-list 'package-archives
 	       '("melpa" . "http://melpa.milkbox.net/packages/"))
   (package-initialize))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org Mode
+(setq org-startup-truncate nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paredit
 (when (require-maybe 'paredit)
@@ -191,16 +196,20 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Haskell
-(when (require-maybe 'haskell-mode)
-  (defun hs-hook ()
-    (local-set-key (kbd "RET") 'newline)
-    (local-set-key (kbd "C-x C-s") 'haskell-mode-save-buffer))
-  (add-hook 'haskell-mode-hook 'hs-hook)
-  (require-maybe 'inf-haskell))
+;; (when (require-maybe 'haskell-mode)
+;;   (defun hs-hook ()
+;;     (local-set-key (kbd "RET") 'newline)
+;;     (local-set-key (kbd "C-x C-s") 'haskell-mode-save-buffer))
+;;   (add-hook 'haskell-mode-hook 'hs-hook)
+;;   (require-maybe 'inf-haskell))
 
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-(setq haskell-tags-on-save t)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;; (setq haskell-tags-on-save t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Rust
+(require-maybe 'rust-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
@@ -216,12 +225,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(background-color "#7f7f7f")
  '(background-mode dark)
  '(cursor-color "#5c5cff")
  '(custom-enabled-themes (quote (zenburn)))
- '(custom-safe-themes (quote ("36a309985a0f9ed1a0c3a69625802f87dee940767c9e200b89cdebdb737e5b29"
-			      "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6"
-			      "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
+ '(custom-safe-themes (quote ("fc6e906a0e6ead5747ab2e7c5838166f7350b958d82e410257aeeb2820e8a07a" "3d6b08cd1b1def3cc0bc6a3909f67475e5612dba9fa98f8b842433d827af5d30" "36a309985a0f9ed1a0c3a69625802f87dee940767c9e200b89cdebdb737e5b29" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
  '(foreground-color "#5c5cff"))
-(custom-set-faces)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
