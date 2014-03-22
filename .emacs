@@ -1,243 +1,228 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; General Settings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pathing
+(setq root-dir
+      (file-name-directory (or load-file-name (buffer-file-name))))
 
-(server-start) ; daemonize emacs
-(setq inhibit-splash-screen t
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
+(setenv "PATH" (shell-command-to-string "source $HOME/.bashrc && printf $PATH"))
+
+;; Settings
+; General
+(random t)
+(auto-compression-mode t)
+(setq save-place t)
+(recentf-mode 1)
+(setq vc-follow-symlinks t)
+(menu-bar-mode -1)
+
+; highlight the current line
+(global-hl-line-mode 1)
+(set-face-background hl-line-face "gray13")
+
+; auto-fill-mode
+(setq comment-auto-fill-only-comments t)
+(setq-default auto-fill-function 'do-auto-fill)
+
+; whitespace-mode
+(setq whitespace-display-mappings
+      '((space-mark 32 [183] [46])
+        (newline-mark 10 [182 10])
+        (tab-mark 9 [9655 9] [92 9])))
+(global-whitespace-mode 1)
+(setq-default whitespace-style '(face
+                                 trailing
+                                 lines
+                                 space-before-tab
+                                 indentation
+                                 space-after-tab)
+              whitespace-line-column 80)
+(show-paren-mode 1)
+
+(when window-system
+  (setq frame-title-format
+        '(buffer-file-name "%f" ("%b")))
+  (blink-cursor-mode -1)
+  (tooltip-mode -1)
+  (tool-bar-mode -1))
+
+; Encodings
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+(setq visible-bell t
+      echo-keystrokes 0.1
+      font-lock-maximum-decoration t
+      inhibit-startup-message t
+      inhibit-splash-screen t
       inhibit-startup-echo-area-message t
-      initial-scratch-message nil
-      visible-bell t
-      column-number-mode t
-      confirm-nonexistent-file-or-buffer nil
-      subword-mode 1
-      next-line-add-newlines t
-      font-lock-maximum-decoration t)
-(menu-bar-mode 0) ; disable the menu bar
-(show-paren-mode 1) ; highligh matching parentheses
-;; font lock
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
+      inhibit-scratch-message nil
+      transient-mark-mode t
+      color-theme-is-global t
+      delete-by-moving-to-trash t
+      shift-select-mode nil
+      truncate-partial-width-windows nil
+      uniquify-buffer-name-style 'forward
+      make-backup-files nil
+      ediff-window-setup-function 'ediff-setup-windows-plain
+      xterm-mouse-mode t
+      save-place-file (concat user-emacs-directory "places.el"))
 
-;; ido
-(ido-mode 1)
-(setq ido-enable-flex-matching t
-      ido-show-dot-for-dired t)
-(ido-everywhere t)
-(add-hook 'dired-mode-hook
-	  '(lambda () (setq ido-enable-replace-completing-read nil))) ; disable ido for dired
+; prevent the cursor from moving into the minibuffer prompt
+(setq minibuffer-prompt-properties
+      (quote
+       (read-only
+        t
+        point-entered
+        minibuffer-avoid-prompt
+        face
+        minibuffer-prompt)))
 
-; clean emacs backup files
-(setq backup-by-copying t
-      backup-directory-alist '(("." . "~/.emacs.backups"))
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)
+; ido
+(when (> emacs-major-version 21)
+  (ido-mode 1)
+  (setq ido-enable-prefix nil
+        ido-enable-flex-matching t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point t
+        ido-max-prospects 10)
+  (ido-everywhere t))
 
-; set PATH correctly
-(setenv "PATH"
-	(shell-command-to-string "source $HOME/.bashrc && printf $PATH"))
-
-(let ((default-directory "~/.emacs.d/"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
-
+; sane defaults
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
+(set-default 'indent-tabs-mode nil)
+(set-default 'indicate-empty-lines t)
+(set-default 'imenu-auto-rescan t)
+(subword-mode 1)
+(column-number-mode 1)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
-(setq linum-format "%d ") ; left-align the line numbers and add whitespace padding in linum-mode
+(require 'org)
+(require 'cl)
+(require 'saveplace)
+(require 'ffap)
+(require 'uniquify)
+(require 'ansi-color)
+(require 'recentf)
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace) ; remove all trailing whitespace
-					                 ; upon saving a buffer
+; Packages
+(setq package-archives
+      '(("original"    . "http://tromey.com/elpa/")
+        ("gnu"         . "http://elpa.gnu.org/packages/")
+        ("marmalade"   . "http://marmalade-repo.org/packages/")))
+(package-initialize)
 
-(setq flyspell-issue-welcome-flag nil) ; flyspell
+(unless package-archive-contents
+  (package-refresh-contents))
 
-; abbrev mode
-;; (setq-default abbrev-mode t)
-;; (setq abbrev-file-name "~/.emacs.d/abbrev_definitions")
-;; (if (file-exists-p abbrev-file-name)
-;;     (quietly-read-abbrev-file))
-
-(setq dabbrev-case-fold-search t) ; make the completition case insensitive
-
-(setq vc-follow-symlinks t) ; follow symlinks to VC files
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Keybindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(global-set-key (kbd "RET")
-		'reindent-then-newline-and-indent)
-(global-set-key (kbd "C-x C-b") 'buffer-menu) ; rebind buffer menu
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Modes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Some utility macros for handling older versions of emacs and/or
-;; dealing with new emacs installs, where the packages might not
-;; be installed yet.
-;; These were taken from:
-;; http://emacs-fu.blogspot.jp/2008/12/using-packages-functions-only-if-they.html
-(defmacro require-maybe (feature &optional file)
-  "*Try to require FEATURE, but don't signal an error if `require' fails."
-  `(require ,feature ,file 'noerror))
-
-(defmacro when-available (func foo)
-  "*Do something if FUNCTION is available."
-  `(when (fboundp ,func) ,foo))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Language Agnostic
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ELPA
-(when (require-maybe 'package)
-  (add-to-list 'package-archives
-	       '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives
-	       '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (package-initialize))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Org Mode
-(setq org-startup-truncate nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Paredit
-(when (require-maybe 'paredit)
-  (defun paredit-on ()
-    "Enables paredit and turns off autopair"
-    (progn
-      (autopair-mode -1)
-      (paredit-mode 1))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Autopair
-(when (require-maybe 'autopair)
-  (autopair-global-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Flymake
-(require-maybe 'flymake-cursor) ; display flymake messages in the cmd buffer
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Language Specifics
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; lisp
-(defun lispy-hook ()
-  "Enable eldoc and paredit"
-  (progn
-    (interactive)
-    (turn-on-eldoc-mode)
-    (when-available 'paredit-on
-		    (paredit-on))))
-
-(add-hook 'lisp-interaction-mode-hook 'lispy-hook)
-(add-hook 'lisp-mode-hook 'lispy-hook)
-(add-hook 'emacs-lisp-mode-hook 'lispy-hook)
-
-(require-maybe 'quack) ; scheme-mode enhancements
-(add-hook 'scheme-mode 'lispy-hook)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Clojure
-(require-maybe 'clojure-mode)
-(require-maybe 'nrepl)
-
-(setq nrepl-popup-stacktraces nil
-      nrepl-hide-special-buffers t)
-
-(add-hook 'clojure-mode-hook 'paredit-on)
-(add-hook 'nrepl-interaction-mode-hook
-	  'nrepl-turn-on-eldoc-mode)
-(add-hook 'nrepl-mode-hook 'paredit-on)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Erlang
-(add-to-list 'load-path "/usr/local/Cellar/erlang/R16B/lib/erlang/lib/tools-2.6.10/emacs/")
-(add-to-list 'exec-path "/usr/local/Cellar/erlang/R16B/lib/erlang/bin/")
-(setq erlang-root-dir "/usr/local/Cellar/erlang/R16B/share/")
-(add-to-list 'load-path "~/Opt/edts/")
-
-(when (require 'erlang-start)
-  (require 'erlang-flymake)
-  (require 'edts-start)
-
-  (add-to-list 'auto-mode-alist '("[.]app.src" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("Emakefile" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("rebar.config" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("reltool.config" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("sys.config" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("vm.args" . erlang-mode)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Latex
-(setq TeX-auto-save t
-      TeX-parse-self t
-      reftex-plug-into-AUCTex t
-      TeX-PDF-mode t)
-(setq-default TeX-master nil)
-(add-hook 'LaTeX-mode-hook 'visual-line-mode)
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Markdown
-(when (require-maybe 'markdown-mode)
-  (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; YAML
-(when (require-maybe 'yaml-mode)
-  (add-to-list 'auto-mode-alist '("\\.yml" . yaml-mode)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Haskell
-;; (when (require-maybe 'haskell-mode)
-;;   (defun hs-hook ()
-;;     (local-set-key (kbd "RET") 'newline)
-;;     (local-set-key (kbd "C-x C-s") 'haskell-mode-save-buffer))
-;;   (add-hook 'haskell-mode-hook 'hs-hook)
-;;   (require-maybe 'inf-haskell))
-
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-;; (setq haskell-tags-on-save t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Rust
-(require-maybe 'rust-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Misc
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun reload-config ()
-  "Reload ~/.emacs"
+; bytecode compilation for elisp
+(defun byte-compile-current-buffer ()
+  "`byte-compile' current buffer if it's emacs-lisp-mode "
+  "and a compiled file exists."
   (interactive)
-  (load-file "~/.emacs"))
+  (when (and (eq major-mode 'emacs-lisp-mode)
+             (file-exists-p (byte-compile-dest-file buffer-file-name)))
+    (byte-compile-file buffer-file-name)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Vars
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'after-save-hook 'byte-compile-current-buffer)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(background-color "#7f7f7f")
- '(background-mode dark)
- '(cursor-color "#5c5cff")
- '(custom-enabled-themes (quote (zenburn)))
- '(custom-safe-themes (quote ("fc6e906a0e6ead5747ab2e7c5838166f7350b958d82e410257aeeb2820e8a07a" "3d6b08cd1b1def3cc0bc6a3909f67475e5612dba9fa98f8b842433d827af5d30" "36a309985a0f9ed1a0c3a69625802f87dee940767c9e200b89cdebdb737e5b29" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
- '(foreground-color "#5c5cff"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+; Fix for FQDN on OSX
+(if (eq system-type 'darwin)
+    (setq system-name (car (split-string system-name "\\."))))
+
+(delete 'try-expand-line hippie-expand-try-functions-list)
+(delete 'try-expand-list hippie-expand-try-functions-list)
+
+(setq diff-switches "-u")
+
+;; Hooks
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook 'turn-on-flyspell)
+(setq flyspell-issue-welcome-flag nil)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+; eldoc for lispy things
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
+;; Major-Modes
+; Diff
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
+(eval-after-load 'diff-mode
+  '(progn
+     (set-face-foreground 'diff-added "green4")
+     (set-face-foreground 'diff-removed "red3")))
+
+; Magit
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")))
+
+; Org
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key "\M-\C-n" 'outline-next-visible-heading)
+            (local-set-key "\M-\C-p" 'outline-previous-visible-heading)
+            (local-set-key "\M-\C-u" 'outline-up-heading)
+            ;; table
+            (local-set-key "\M-\C-w" 'org-table-copy-region)
+            (local-set-key "\M-\C-y" 'org-table-paste-rectangle)
+            (local-set-key "\M-\C-l" 'org-table-sort-lines)
+            ;; display images
+            (local-set-key "\M-I" 'org-toggle-iimage-in-org)))
+(setq org-use-speed-commands t
+      org-log-done t)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (sh . t)))
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+
+
+;; Keybindings
+(global-set-key (kbd "C-x \\") 'align-regexp)
+(global-set-key (kbd "M-/") 'hippie-expand)
+
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+
+(windmove-default-keybindings) ;; Shift+direction
+(global-set-key (kbd "C-x O")
+                (lambda ()
+                  (interactive) (other-window -1))) ;; back one
+(global-set-key (kbd "C-x C-o")
+                (lambda ()
+                  (interactive) (other-window 2))) ;; forward two
+
+(global-set-key (kbd "C-x ^") 'join-line)
+
+(global-set-key (kbd "C-h a") 'apropos)
+
+(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-x\C-r" 'rgrep)
+
+;; Theming
+(load-theme 'wombat t)
+; fix hl-line after theming
+(set-face-attribute 'highlight nil :foreground 'unspecified)
+;; TODO move this to a seperate file
+
+; CSS
+(add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
+(require 'flymake-sass)
+(add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
+
+; JS
+(require 'js2-mode)
+(require 'flymake-jslint)
+(require 'flymake-jshint)
+(add-to-list 'auto-mode-alist '("\\.js\\(on\\)?$" . js2-mode))
