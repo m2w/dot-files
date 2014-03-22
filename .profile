@@ -12,14 +12,18 @@ export LC_ALL=en_US.UTF-8
 export EDITOR='emacsclient -c -a=""'
 export TERM=screen-256color
 
-# path manipulation
-PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/texbin:$PATH # prefer homebrew over system executables
-[[ -d $HOME/.gems ]] && PATH=$PATH:$HOME/.gems/bin && export GEM_HOME=~/.gems # append any gem scripts
-[[ -d /usr/local/share/npm ]] && PATH=/usr/local/share/npm/bin:$PATH # prepend npm installed executables
+# prefer homebrew over system executables
+PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/texbin:$PATH
+# append any gem scripts
+[[ -d $HOME/.gems ]] && PATH=$PATH:$HOME/.gems/bin && export GEM_HOME=~/.gems
+# prepend npm installed executables
+[[ -d /usr/local/share/npm ]] && PATH=/usr/local/share/npm/bin:$PATH
 [[ -d $HOME/.cabal ]] && PATH=$PATH:$HOME/.cabal/bin
 PATH=$HOME/.scripts:$PATH # prepend custom scripts
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH
 
+# python virtualenv
 [[ -f /usr/local/bin/virtualenvwrapper.sh ]] && source /usr/local/bin/virtualenvwrapper.sh
 
 ##
@@ -28,7 +32,7 @@ export PATH=$PATH
 if [[ -d /usr/local/etc/bash_completion.d ]]; then
     COMPLETION_PATH=/usr/local/etc/bash_completion.d/
     for f in $( \ls $COMPLETION_PATH ); do
-	source $COMPLETION_PATH$f
+        source $COMPLETION_PATH$f
     done
 fi
 
@@ -36,9 +40,11 @@ fi
 ## Alias definitions
 ##
 alias semacs='sudo -e'
-alias emacs='emacsclient -c -a=""' # start the emacs server or connect to the running server
+# daemonize emacs
+alias emacs='emacsclient -c -a=""'
 alias ..='cd ..'
-alias erlt='find . -name "*.[he]rl" -print | etags -' # recursive find of all erl/hrl files to feed etags
+# recursive find of all erl/hrl files to feed etags
+alias erlt='find . -name "*.[he]rl" -print | etags -'
 alias passwordgen='openssl rand -base64 20'
 alias stn='setTabName'
 alias unquote='python -c "import urllib; import sys; print urllib.unquote(sys.argv[1])"'
@@ -61,14 +67,15 @@ function setTabName() { echo -n -e "\033]0;$@\007"; }
 function gitBranch() {
     if git rev-parse --git-dir >/dev/null 2>&1
     then
-	branch=$(git symbolic-ref --short HEAD)
-	echo " ($branch)"
+        branch=$(git symbolic-ref --short HEAD)
+        echo " ($branch)"
     else
-	return 0
+        return 0
     fi
 }
 
-PS1="\u@\h:\W\$(gitBranch) \$ " # set prompt: ``username@hostname:/pwd (current git branch) $ ''
+# set the prompt to ``username@hostname:/pwd (current git branch) $ ''
+PS1="\u@\h:\W\$(gitBranch) \$ "
 
 ##
 ## Misc
@@ -88,5 +95,3 @@ function clearDLhist() {
 
 # OPAM configuration
 . /Users/blah/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
