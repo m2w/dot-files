@@ -16,17 +16,17 @@ display_notice() {
 toggle_file_name() {
     if [[ ${FNAME:0:1} = "." ]]
     then
-	mv $FNAME ${FNAME:1}
+        mv $FNAME ${FNAME:1}
     else
-	mv $FNAME $HIDDEN_PREFIX$FNAME
+        mv $FNAME $HIDDEN_PREFIX$FNAME
     fi
 }
 
 validate_file() {
     if [[ ! -e $FNAME ]]
     then
-	display_notice
-	exit 1
+        display_notice
+        exit 1
     fi
 }
 

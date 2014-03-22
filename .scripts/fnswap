@@ -32,10 +32,10 @@ for input in $@
 do
     if [[ -e $input ]]
     then
-	continue
+        continue
     else
-	display_notice
-	exit 1
+        display_notice
+        exit 1
     fi
 done
 swap_file_names
