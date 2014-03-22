@@ -11,11 +11,9 @@
 .elc
 auto-save-list
 tramp
-#tags
-#TAGS
 
 ## Haskell
-.virthualenv
+.virtualenv
 dist
 cabal-dev
 *.o
@@ -31,10 +29,11 @@ deps
 *.plt
 erl_crash.dump
 
-## Scala
+## JVM
 *.class
 *.log
-# sbt specific
+
+# sbt
 dist/*
 target/
 lib_managed/
@@ -42,7 +41,7 @@ src_managed/
 project/boot/
 project/plugins/project/*.class
 
-## JVM (other)
+# other
 *.jar
 *.war
 *.ear
