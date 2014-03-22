@@ -1,18 +1,20 @@
 [user]
-	name = Moritz
-	email = moritz@tibidat.com
+        name = Moritz
+        email = moritz@tibidat.com
 [core]
-	excludesfile = ~/.gitignore
-	whitespace = trailing-space, tab-indent
-	autocrlf = input
+        excludesfile = ~/.gitignore
+        whitespace = trailing-space, tab-indent
+        autocrlf = input
 [apply]
-	whitespace = strip
+        whitespace = strip
 [color]
-	diff = auto
+        diff = auto
 [push]
-	default = matching
+        default = matching
 [merge]
-	tool = kdiff3
+        tool = kdiff3
 [alias]
-	unstage = reset HEAD
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+        unstage = reset HEAD
+        hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+        s = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+        fl = log -u
