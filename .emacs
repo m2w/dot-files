@@ -183,6 +183,16 @@
 (setq org-src-fontify-natively t)
 (setq org-src-tab-acts-natively t)
 
+; Markdown
+(defun ignore-long-lines ()
+  "Ignores lines exceeding 80 chars."
+  (setq whitespace-style '(face
+                           trailing
+                           space-before-tab
+                           indentation
+                           space-after-tab)))
+
+(add-hook 'markdown-mode-hook 'ignore-long-lines)
 
 ;; Keybindings
 (global-set-key (kbd "C-x \\") 'align-regexp)
