@@ -217,7 +217,7 @@
 (global-set-key (kbd "C-x C-o")
                 (lambda ()
                   (interactive) (other-window 2))) ;; forward two
-
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x ^") 'join-line)
 
 (global-set-key (kbd "C-h a") 'apropos)
