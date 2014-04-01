@@ -110,6 +110,9 @@
 (require 'ansi-color)
 (require 'recentf)
 
+; FIXME: not a default package, wrap this in a 'check or install'
+(require 'flymake-cursor)
+
 ; Packages
 (setq package-archives
       '(("original"    . "http://tromey.com/elpa/")
