@@ -84,9 +84,13 @@
   (setq ido-enable-prefix nil
         ido-enable-flex-matching t
         ido-create-new-buffer 'always
-        ido-use-filename-at-point t
+        ido-show-dot-for-dired t
         ido-max-prospects 10)
   (ido-everywhere t))
+; disable ido for dired
+(add-hook 'dired-mode-hook
+          '(lambda ()
+             (setq ido-enable-replace-completing-read nil)))
 
 ; sane defaults
 (setq require-final-newline t)
