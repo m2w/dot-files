@@ -110,9 +110,6 @@
 (require 'ansi-color)
 (require 'recentf)
 
-; FIXME: not a default package, wrap this in a 'check or install'
-(require 'flymake-cursor)
-
 ; Packages
 (setq package-archives
       '(("original"    . "http://tromey.com/elpa/")
@@ -122,6 +119,8 @@
 
 (unless package-archive-contents
   (package-refresh-contents))
+
+(require 'flymake-cursor)
 
 ; bytecode compilation for elisp
 (defun byte-compile-current-buffer ()
