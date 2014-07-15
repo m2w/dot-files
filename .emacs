@@ -114,7 +114,8 @@
 (setq package-archives
       '(("original"    . "http://tromey.com/elpa/")
         ("gnu"         . "http://elpa.gnu.org/packages/")
-        ("marmalade"   . "http://marmalade-repo.org/packages/")))
+        ("marmalade"   . "http://marmalade-repo.org/packages/")
+        ("melpa"       . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
 
 (unless package-archive-contents
@@ -143,7 +144,10 @@
 (setq diff-switches "-u")
 
 ;; Hooks
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook
+          (lambda ()
+            (when (y-or-n-p "Auto Fill mode? ")
+              (turn-on-auto-fill))))
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 (setq flyspell-issue-welcome-flag nil)
 
@@ -155,6 +159,7 @@
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
 ;; Major-Modes
+;; TODO move these to a seperate file
 ; Diff
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
 (eval-after-load 'diff-mode
@@ -200,6 +205,10 @@
 
 (add-hook 'markdown-mode-hook 'ignore-long-lines)
 
+; Scala
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
 ;; Keybindings
 (global-set-key (kbd "C-x \\") 'align-regexp)
 (global-set-key (kbd "M-/") 'hippie-expand)
@@ -229,7 +238,6 @@
 (load-theme 'wombat t)
 ; fix hl-line after theming
 (set-face-attribute 'highlight nil :foreground 'unspecified)
-;; TODO move this to a seperate file
 
 ; CSS
 (add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
