@@ -16,11 +16,14 @@ export TERM=screen-256color
 PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/texbin:$PATH
 # append any gem scripts
 [[ -d $HOME/.gems ]] && PATH=$PATH:$HOME/.gems/bin && export GEM_HOME=~/.gems
+# set the GOPATH
+[[ -d $HOME/go ]] && export GOPATH=$HOME/go
 # prepend npm installed executables
 [[ -d /usr/local/share/npm ]] && PATH=/usr/local/share/npm/bin:$PATH
 [[ -d $HOME/.cabal ]] && PATH=$PATH:$HOME/.cabal/bin
 PATH=$HOME/.scripts:$PATH # prepend custom scripts
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$GOPATH/bin # Append the GOPATH
 export PATH=$PATH
 
 # python virtualenv

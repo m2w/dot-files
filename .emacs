@@ -160,6 +160,8 @@
 
 ;; Major-Modes
 ;; TODO move these to a seperate file
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
 ; Diff
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG$" . diff-mode))
 (eval-after-load 'diff-mode
@@ -246,9 +248,14 @@
 
 ; JS
 (require 'js2-mode)
-(require 'flymake-jslint)
-(require 'flymake-jshint)
 (add-to-list 'auto-mode-alist '("\\.js\\(on\\)?$" . js2-mode))
+
+; Go
+(require 'go-eldoc)
+(require 'go-mode)
+(require 'go-autocomplete)
+(require 'auto-complete-config)
+(add-hook 'go-mode-hook 'go-eldoc-setup)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
