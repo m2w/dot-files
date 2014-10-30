@@ -158,6 +158,8 @@
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
+(require 'smartparens-config)
+
 ;; Major-Modes
 ;; TODO move these to a seperate file
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -207,10 +209,6 @@
 
 (add-hook 'markdown-mode-hook 'ignore-long-lines)
 
-; Scala
-(require 'ensime)
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-
 ;; Keybindings
 (global-set-key (kbd "C-x \\") 'align-regexp)
 (global-set-key (kbd "M-/") 'hippie-expand)
@@ -256,6 +254,19 @@
 (require 'go-autocomplete)
 (require 'auto-complete-config)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
+
+; Clojure
+(require 'clojure-mode)
+(require 'cider-mode)
+(setq nrepl-hide-special-buffers t)
+(setq cider-repl-pop-to-buffer-on-connect nil)
+(setq cider-auto-select-error-buffer nil)
+(add-hook 'cider-repl-mode-hook 'company-mode)
+(add-hook 'cider-mode-hook 'company-mode)
+(add-hook 'cider-mode-hook 'smartparens-mode)
+(add-hook 'cider-repl-mode-hook 'subword-mode)
+(add-hook 'cider-repl-mode-hook 'smartparens-strict-mode)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
