@@ -11,6 +11,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export EDITOR='emacsclient -c -a=""'
 export TERM=screen-256color
+export XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
 
 # prefer homebrew over system executables
 PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/texbin:$PATH
