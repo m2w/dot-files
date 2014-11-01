@@ -15,7 +15,7 @@
 
 (defun elisp-hooks ()
   "Provide all elisp hooks."
-  (byte-compile-current-buffer)
+;  (byte-compile-current-buffer)
   (smartparens-strict-mode 1)
   (run-hooks 'turn-on-eldoc-mode))
 
@@ -24,13 +24,13 @@
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
 (defvar lispy-pkgs
-  '(cider-mode
+  '(cider
     clojure-mode))
 
 (ensure-pkgs-installed lispy-pkgs)
 
 (require 'clojure-mode)
-(require 'cider-mode)
+(require 'cider)
 
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-pop-to-buffer-on-connect nil)

@@ -30,6 +30,9 @@
 (require 'packages)
 (require 'basics)
 (require 'keybinds)
+(require 'helmdo)
+
+(require 'lisps)
 
 ;;; init.el ends here
 
