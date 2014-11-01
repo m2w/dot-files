@@ -24,5 +24,5 @@
 
 (add-hook 'go-mode 'go-hooks)
 
-(provide 'go)
+(provide 'golang)
 ;;; golang.el ends here

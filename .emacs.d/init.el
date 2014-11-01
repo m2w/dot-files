@@ -39,6 +39,7 @@
 (require 'helmdo)
 
 (require 'lisps)
+(require 'golang)
 
 ;;; init.el ends here
 
