@@ -19,7 +19,8 @@
     magit
     projectile
     smart-mode-line
-    smartparens))
+    smartparens
+    sublime-themes))
 
 (defun ensure-pkg-installed (pkg)
   "Ensure that PKG is installed."

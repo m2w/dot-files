@@ -120,10 +120,6 @@
 (require 'windmove)
 (windmove-default-keybindings)
 
-;; collapse minor modes
-(require 'diminish)
-;; TODO: check which modes should be diminished/abbreviated
-
 ;; prettify the smart-mode-line
 (require 'smart-mode-line)
 (sml/setup)
@@ -138,11 +134,7 @@
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
-;; use the wombat theme
-(load-theme 'wombat t)
-; fix hl-line after theming
-(set-face-attribute 'highlight nil :foreground 'unspecified)
-
+(load-theme 'zenburn t)
 ;; TODO: ido!
 
 (provide 'basics)
