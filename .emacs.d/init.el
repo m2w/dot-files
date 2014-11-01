@@ -40,6 +40,7 @@
 
 (require 'lisps)
 (require 'golang)
+(require 'text)
 
 ;;; init.el ends here
 
