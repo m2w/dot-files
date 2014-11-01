@@ -14,6 +14,7 @@
   '(company
     diminish
     flycheck
+    git-commit-mode
     gitconfig-mode
     gitignore-mode
     magit
