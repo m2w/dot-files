@@ -10,7 +10,7 @@ export HISTCONTROL=erasedups
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export EDITOR='emacsclient -c -a=""'
-export TERM=screen-256color
+export TERM=xterm-256color
 export XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
 
 # prefer homebrew over system executables
