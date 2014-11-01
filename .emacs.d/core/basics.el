@@ -124,7 +124,6 @@
 (require 'smart-mode-line)
 (sml/setup)
 (sml/apply-theme 'respectful)
-;; TODO: add and configure rich-minority
 
 ;; setup projectile
 (require 'projectile)
@@ -138,8 +137,6 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (load-theme 'zenburn t)
-
-;; TODO: ido!
 
 (provide 'basics)
 ;;; basics.el ends here
