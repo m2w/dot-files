@@ -124,10 +124,13 @@
 (require 'smart-mode-line)
 (sml/setup)
 (sml/apply-theme 'respectful)
+;; TODO: add and configure rich-minority
 
 ;; setup projectile
 (require 'projectile)
 (setq projectile-cache-file (concat user-emacs-directory "projectile.cache"))
+(setq projectile-enable-caching t)
+;; FIXME: this is generating tons of warnings
 (projectile-global-mode t)
 
 ;; setup company for autocompletion
@@ -135,6 +138,7 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (load-theme 'zenburn t)
+
 ;; TODO: ido!
 
 (provide 'basics)
