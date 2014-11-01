@@ -1,11 +1,11 @@
-;;; go.el --- Go specific stuff
+;;; golang.el --- Go specific stuff
 ;;; Commentary:
 ;; Contains settings for go.
 ;;; Code:
 (defvar go-packages
-  '(company-go
+  '(go-mode
+    company-go
     go-eldoc
-    go-mode
     go-projectile
     gotest))
 
@@ -25,4 +25,4 @@
 (add-hook 'go-mode 'go-hooks)
 
 (provide 'go)
-;;; go.el ends here
+;;; golang.el ends here
