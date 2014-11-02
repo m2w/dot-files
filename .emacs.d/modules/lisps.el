@@ -40,7 +40,7 @@
   "Provide all cider hooks."
   (smartparens-strict-mode 1)
   (subword-mode 1)
-  (run-hooks 'subword-mode 'company-mode 'smartparens-mode 'cider-turn-on-eldoc-mode))
+  (run-hooks 'cider-turn-on-eldoc-mode))
 
 (add-hook 'cider-mode-hook 'cider-hooks)
 (add-hook 'cider-repl-mode-hook 'cider-hooks)
