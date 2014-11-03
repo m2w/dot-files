@@ -8,9 +8,6 @@
 
 (setq load-prefer-newer t)
 
-(byte-recompile-directory (concat user-emacs-directory "core") 0)
-(byte-recompile-directory (concat user-emacs-directory "modules") 0)
-
 (add-to-list 'load-path (concat user-emacs-directory "core"))
 (add-to-list 'load-path (concat user-emacs-directory "modules"))
 

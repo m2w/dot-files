@@ -27,11 +27,20 @@
 (add-to-list 'auto-mode-alist '("vm.args" . erlang-mode))
 
 (require 'erlang-start)
-(require 'edts-start)
+
+(defun erl-hook ()
+  "Enable edts for erlang."
+  (require 'edts-start))
+
+(add-hook 'erlang-mode-hook 'erl-hook)
 
 (require 'elixir-mode)
 (require 'alchemist)
-(alchemist-mode 1)
+(defun cust-elixir-hook ()
+  "Enables alchemist for 'elixir-mod'."
+  (alchemist-mode 1))
+
+(add-hook 'elixir-mode 'cust-elixir-hook)
 
 (provide 'beams)
 ;;; beams.el ends here
