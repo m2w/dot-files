@@ -44,6 +44,7 @@
 (require 'lisps)
 (require 'golang)
 (require 'text)
+(require 'beams)
 
 ;;; init.el ends here
 
