@@ -4,7 +4,7 @@
 
 ;;; Code:
 (when (version< emacs-version "24.4")
-  (error "Please update to a recent version of emacs."))
+  (error "Please update to a recent version of Emacs"))
 
 (setq load-prefer-newer t)
 
@@ -31,6 +31,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil))))
+ '(cider-error-highlight-face ((t (:background "color-233" :foreground "magenta"))))
+ '(flycheck-error ((t (:background "color-233" :foreground "magenta" :weight bold))))
+ '(flycheck-warning ((t (:foreground "magenta"))))
  '(hl-line ((t (:background "#424242")))))
 
 (require 'packages)

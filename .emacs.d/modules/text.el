@@ -9,7 +9,7 @@
 (ensure-pkgs-installed text-pkgs)
 
 (defun enable-buffer-face ()
-  "Enable buffer-face-mode."
+  "Enable 'buffer-face-mode'."
   (buffer-face-mode t))
 
 (add-hook 'adoc-mode-hook 'enable-buffer-face)

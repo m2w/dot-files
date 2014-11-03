@@ -1,3 +1,6 @@
+;;; packages.el --- Contains essential packages.
+;;; Commentary:
+;; Provides essential packages and package installation.
 
 ;;; Code:
 (require 'package)
@@ -35,7 +38,7 @@
 ;; Install any missing packages
 (ensure-pkgs-installed basic-packages)
 
-;; TODO: add a function to ensure company-mode backends are present
+;; TODO: add a function to ensure flycheck/company-mode backends are present
 ;; for most necessary languages?
 
 (provide 'packages)

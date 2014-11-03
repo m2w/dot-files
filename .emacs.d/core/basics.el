@@ -142,5 +142,8 @@
 
 (load-theme 'zenburn t)
 
+;; enable global flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
 (provide 'basics)
 ;;; basics.el ends here
