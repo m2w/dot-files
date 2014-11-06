@@ -15,7 +15,13 @@
 (add-hook 'adoc-mode-hook 'enable-buffer-face)
 (add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode))
 
-(add-hook 'markdown-mode-hook 'enable-buffer-face)
+(defun cust-md-hook ()
+  "Provide hooks for `md-mode'."
+  (enable-buffer-face)
+  (auto-fill-mode))
+
+(add-hook 'markdown-mode-hook 'cust-md-hook)
+(add-hook 'gfm-mode-hook 'cust-md-hook)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))

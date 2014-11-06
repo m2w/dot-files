@@ -45,6 +45,7 @@
 (require 'golang)
 (require 'text)
 (require 'beams)
+(require 'webthings)
 
 ;;; init.el ends here
 
