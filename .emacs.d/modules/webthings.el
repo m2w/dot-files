@@ -21,7 +21,7 @@
 
 (defun cust-web-hook ()
   "Provide hooks for `web-mode'."
-  (sub-word-mode 1))
+  (subword-mode 1))
 
 (add-hook 'web-mode-hook 'cust-web-hook)
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
