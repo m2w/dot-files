@@ -14,6 +14,7 @@
 
 (add-hook 'adoc-mode-hook 'enable-buffer-face)
 (add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode))
+(add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
 
 (defun cust-md-hook ()
   "Provide hooks for `md-mode'."
