@@ -129,13 +129,12 @@
 (require 'projectile)
 (setq projectile-cache-file (concat user-emacs-directory "projectile.cache"))
 (setq projectile-enable-caching t)
-;; FIXME: this is generating tons of warnings
 (projectile-global-mode t)
 
 ;; setup company for autocompletion
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
-(setq company-idle-delay 0.5
+(setq company-idle-delay 0.2
       company-tooltip-limit 10
       company-minimum-prefix-length 2
       company-tooltip-flip-when-above t)

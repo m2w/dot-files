@@ -7,6 +7,7 @@
   '(haml-mode
     js2-mode
     json-mode
+    jsx-mode
     json-reformat
     sass-mode
     web-mode))

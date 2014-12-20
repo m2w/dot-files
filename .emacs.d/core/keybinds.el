@@ -26,5 +26,13 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-x\C-r" 'rgrep)
 
+(defun complete-or-indent ()
+  "Either indent or complete at point."
+  (interactive)
+  (if (looking-at "\\_>")
+      (helm-company)
+    (indent-according-to-mode)))
+(define-key global-map "\t" 'complete-or-indent)
+
 (provide 'keybinds)
 ;;; keybinds.el ends here

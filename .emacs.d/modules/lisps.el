@@ -3,6 +3,7 @@
 ;; Contains settings for lisps.
 ;;; Code:
 
+; FIXME: fails due to pathing
 (defun byte-compile-current-buffer ()
   "Bytecompile the current buffer."
   (add-hook 'after-save-hook
